@@ -25,7 +25,7 @@ public class ThreadContextProviderPlan {
     private final int snapshotInitialSize;
     private final ThreadContextProvider[] propagatedProvidersFastIterable;
     private final ThreadContextProvider[] clearedProvidersFastIterable;
-    private boolean fast;
+    private final boolean fast;
 
     public ThreadContextProviderPlan(Set<ThreadContextProvider> propagatedSet, Set<ThreadContextProvider> unchangedSet,
             Set<ThreadContextProvider> clearedSet) {
@@ -37,14 +37,14 @@ public class ThreadContextProviderPlan {
         this.clearedProvidersFastIterable = clearedProviders.toArray(new ThreadContextProvider[0]);
         boolean fast = true;
         for (ThreadContextProvider provider : propagatedProvidersFastIterable) {
-            if (provider instanceof FastThreadContextProvider == false) {
+            if (!(provider instanceof FastThreadContextProvider)) {
                 fast = false;
                 break;
             }
         }
         if (fast) {
             for (ThreadContextProvider provider : clearedProvidersFastIterable) {
-                if (provider instanceof FastThreadContextProvider == false) {
+                if (!(provider instanceof FastThreadContextProvider)) {
                     fast = false;
                     break;
                 }
